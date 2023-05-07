@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Upload Form</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+  </head>
+  <body>
+    <h2>Upload an Image</h2>
+    <form action="upload.php" method="POST" enctype="multipart/form-data">
+      
+      <input type="file" name="file" id="file-input" accept="image/*,video/*">
+      <input type="submit" value="Upload">
+    </form>
+
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+      <div id="progress-text"></div>
+    </div>
+    <script>
+      const fileInput = document.getElementById('file-input');
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      xhr.send(formData);
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const MAX_PROGRESS = 100;
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', (event) => {
+          if (event.lengthComputable) {
+            const percent = Math.round((event.loaded / event.total) * MAX_PROGRESS);
+            progressBar.style.width = `${percent}%`;
+            progressText.innerText = `${percent}%`;
+          }
+        });
+
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            // handle successful upload
+          }
+        };
+
+        xhr.open('POST', form.getAttribute('action'));
+        xhr.send(new FormData(form));
+      });
+    </script>
+
+  </body>
+</html>
